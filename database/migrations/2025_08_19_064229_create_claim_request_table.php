@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('claim_request', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->text('message');
             $table->boolean('is_approved');
             $table->foreignUuid('user_id')->constrained('user')->onDelete('cascade');
