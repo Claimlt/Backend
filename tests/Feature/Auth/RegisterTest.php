@@ -26,7 +26,7 @@ it('fails if email is invalid', function () {
         'password' => 'password123',
         'password_confirmation' => 'password123',
         'contact_number' => '0771234567',
-        'nic' => '123456789V',
+        'nic' => '1234567891',
     ]);
 
     $response->assertStatus(422);
@@ -41,7 +41,7 @@ it('fails if password confirmation does not match', function () {
         'password' => 'password123',
         'password_confirmation' => 'wrong-password',
         'contact_number' => '0771234567',
-        'nic' => '123456789V',
+        'nic' => '1234567891',
     ]);
 
     $response->assertStatus(422);
