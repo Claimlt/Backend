@@ -32,7 +32,7 @@ it('fails login with invalid password', function () {
     ]);
 
     $response->assertStatus(401)
-        ->assertJson(['message' => 'Invalid credentials']);
+        ->assertJson(['message' => 'Invalid login credentials']);
 });
 
 it('fails login with non-existent user', function () {
@@ -41,8 +41,8 @@ it('fails login with non-existent user', function () {
         'password' => 'password123',
     ]);
 
-    $response->assertStatus(404)
-        ->assertJson(['message' => 'User not found']);
+    $response->assertStatus(401)
+        ->assertJson(['message' => 'Invalid login credentials']);
 });
 
 it('fails login with empty email', function () {
