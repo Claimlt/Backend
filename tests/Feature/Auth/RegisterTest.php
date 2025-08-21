@@ -7,7 +7,7 @@ uses(RefreshDatabase::class);
 
 it('fails if required fields are missing', function () {
     $response = $this->postJson('/api/register', []);
-    $response->assertStatus(422); // validation error
+    $response->assertStatus(422);
     $response->assertJsonValidationErrors([
         'first_name',
         'last_name',

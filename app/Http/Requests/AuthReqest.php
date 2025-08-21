@@ -19,7 +19,15 @@ class AuthReqest extends FormRequest
             'email' => 'required|string|email|unique:user',
             'password' => 'required|string|min:6|confirmed',
             'contact_number' => "required|string|digits:10",
-            'nic' => 'required|string|digits:10',
+            'nic' => 'required|string|digits:12',
+        ];
+
+    }
+    public function messages()
+    {
+        return [
+            'nic.unique' => 'This NIC is already registered',
+            'email.unique' => 'This email is already registered',
         ];
     }
 }

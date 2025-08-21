@@ -5,9 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('user', function (Blueprint $table) {
@@ -17,7 +14,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('nic', 10);
+            $table->string('nic', 12);
             $table->enum('role', ["user", "admin"]);
             $table->enum('status', ["pending", "active", "blocked"]);
             $table->string('contact_number', 10);
@@ -40,10 +37,6 @@ return new class extends Migration {
             $table->integer('last_activity')->index();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
