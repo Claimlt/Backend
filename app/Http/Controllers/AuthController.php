@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthReqest;
+use App\Http\Requests\LoginReqest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -11,16 +13,9 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     //register function
-    public function register(Request $request)
+    public function register(AuthReqest $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:user',
-            'password' => 'required|string|min:6|confirmed',
-            'contact_number' => "required|string|digits:10",
-            'nic' => 'required|string|digits:10',
-        ]);
+        $request->validated();
 
         $user = User::create([
             'first_name' => $request->first_name,
@@ -43,12 +38,9 @@ class AuthController extends Controller
         ], 201);
     }
     //login function
-    public function login(Request $request)
+    public function login(LoginReqest $request)
     {
-        $request->validate([
-            "email" => 'required|string|email',
-            "password" => 'required|string'
-        ]);
+        $request->validated();
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid login credentials'], 401);
