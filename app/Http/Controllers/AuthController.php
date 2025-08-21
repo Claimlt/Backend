@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthReqest;
-use App\Http\Requests\LoginReqest;
+
+use App\Http\Requests\AuthRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     //register function
-    public function register(AuthReqest $request)
+    public function register(AuthRequest $request)
     {
         $request->validated();
 
@@ -36,8 +37,9 @@ class AuthController extends Controller
             'token' => $token,
         ], 201);
     }
+
     //login function
-    public function login(LoginReqest $request)
+    public function login(LoginRequest $request)
     {
         $request->validated();
 
@@ -53,6 +55,7 @@ class AuthController extends Controller
             'token' => $token,
         ], 200);
     }
+
     //logout function
     public function logout()
     {
