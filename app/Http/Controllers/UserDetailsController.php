@@ -2,64 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserDetailsHandleRequest;
 use App\Models\UserDetails;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserDetailsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get logged-in user details
      */
-    public function index()
+    public function show()
     {
-        //
+        $user = Auth::user();
+        $details = UserDetails::where('user_id', $user->id)->first();
+
+        return response()->json([
+            'user_details' => $details,
+        ], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Update or create user details
      */
-    public function create()
+    public function updateDetails(UserDetailsHandleRequest $request)
     {
-        //
-    }
+        $user = Auth::user();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $data = $request->validated();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserDetails $userDetails)
-    {
-        //
-    }
+        if ($request->hasFile('profile_image')) {
+            $path = $request->file('profile_image')->store('profile_images', 'public');
+            $data['profile_image'] = $path;
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserDetails $userDetails)
-    {
-        //
-    }
+        $userDetails = UserDetails::updateOrCreate(
+            ['user_id' => $user->id],
+            $data
+        );
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserDetails $userDetails)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserDetails $userDetails)
-    {
-        //
+        return response()->json([
+            'message' => 'User details updated successfully',
+            'user_details' => $userDetails
+        ], 200);
     }
 }
