@@ -22,7 +22,8 @@ class ImageController extends Controller
 
         $image = $request->image;
         $hashedName = Str::random(30) . '.' . $image->getClientOriginalExtension();
-        $path = $image->storeAs('posts', $hashedName, 'public');
+        $folder = $request->get('type');
+        $path = $image->storeAs($folder, $hashedName, 'public');
 
         $image = Image::create([
             "filename" => $path,
