@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
+    use HasUuids;
 
     /**
      * The table associated with the model.
@@ -27,6 +29,7 @@ class Post extends Model
     protected $fillable = [
         'title',
         'description',
+        "user_id"
     ];
 
     /**
@@ -39,17 +42,17 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    /**
+     * Get all of the images for the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
     //  UUID settings
     public $incrementing = false;   // no auto increment
     protected $keyType = 'string';  // primary key is a string
-
-    // Auto-generate UUID when creating user
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
 }
