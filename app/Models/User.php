@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -70,6 +71,16 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the images for the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function avatar(): MorphOne
+    {
+        return $this->MorphOne(Image::class, 'imageable');
     }
 
     //  UUID settings
