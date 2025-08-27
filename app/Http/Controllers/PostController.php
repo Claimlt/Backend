@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
+use App\Models\Image;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Storage;
 
 
 class PostController extends Controller
@@ -18,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with('images')->get();
         return PostResource::collection($posts);
     }
 
@@ -34,7 +36,16 @@ class PostController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
-        return (new PostResource($post))->response()->setStatusCode(201);
+        if ($request->filled('images')) {
+            Image::whereIn('id', $request->input('images'))
+                ->update([
+                    'imageable_id' => $post->id,
+                    'imageable_type' => Post::class,
+                ]);
+        }
+
+
+        return (new PostResource($post->load('images')))->response()->setStatusCode(201);
     }
 
     /**
@@ -42,7 +53,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return new PostResource($post);
+        return new PostResource($post->load('images'));
     }
 
     /**
@@ -57,7 +68,7 @@ class PostController extends Controller
             'description' => $request->description,
         ]);
 
-        return new PostResource($post);
+        return new PostResource($post->load('images'));
     }
 
     /**
@@ -66,6 +77,18 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         Gate::authorize('delete', $post);
+
+        $images = $post->images;
+
+        foreach ($images as $image) {
+            // Delete file from storage
+            Storage::disk('public')->delete($image->filename);
+
+            // Delete image record
+            $image->delete();
+        }
+
+        // Delete the post itself
         $post->delete();
         return response()->noContent();
     }
