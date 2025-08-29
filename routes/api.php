@@ -13,9 +13,9 @@ Route::get("/", function () {
 Route::post("/register", [AuthController::class, 'register']);
 Route::post("/login", [AuthController::class, 'login']);
 Route::post("/logout", [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
 Route::get("/profile", [ProfileController::class, 'profile'])->middleware('auth:sanctum');
 Route::post("/update", [ProfileController::class, 'update'])->middleware('auth:sanctum');
-
 
 Route::post("/images", [ImageController::class, 'store'])->middleware('auth:sanctum')->name("image-upload");
 Route::apiResource("/posts", PostController::class)->middleware('auth:sanctum');
