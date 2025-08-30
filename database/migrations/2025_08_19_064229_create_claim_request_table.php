@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->text('message');
             $table->timestamp('approved_at')->nullable();
-            $table->foreignUuid('approved_by')->constrained('user')->onDelete('cascade');
+            $table->foreignUuid('approver_id')->nullable()->constrained('user')->onDelete('cascade');
             $table->foreignUuid('user_id')->constrained('user')->onDelete('cascade');
             $table->foreignUuid('post_id')->constrained('post')->onDelete('cascade');
             $table->timestamps();

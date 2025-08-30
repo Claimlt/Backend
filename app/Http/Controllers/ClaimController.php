@@ -51,7 +51,7 @@ class ClaimController extends Controller
      */
     public function show(Claim $claim)
     {
-        return ClaimResource::collection($claim->load('images', 'user'));
+        return new ClaimResource($claim->load('images', 'user'));
     }
 
     /**

@@ -25,7 +25,6 @@ class ClaimFactory extends Factory
             'approved_at' => false,
             'post_id' => Post::factory(),
             'user_id' => User::factory(),
-            'approver_id' => User::factory(),
         ];
     }
 }
