@@ -83,6 +83,26 @@ class User extends Authenticatable
         return $this->MorphOne(Image::class, 'imageable');
     }
 
+    /**
+     * Get all of the claims for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function claims(): HasMany
+    {
+        return $this->hasMany(Claim::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all of the claims_approved for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function claims_approved(): HasMany
+    {
+        return $this->hasMany(Claim::class, 'approver_id', 'id');
+    }
+
     //  UUID settings
     public $incrementing = false;   // no auto increment
     protected $keyType = 'string';  // primary key is a string
@@ -95,9 +115,5 @@ class User extends Authenticatable
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
-    }
-    public function userDetails()
-    {
-        return $this->hasOne(UserDetails::class, 'user_id', 'id');
     }
 }
