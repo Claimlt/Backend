@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ class Claim extends Model
 {
     /** @use HasFactory<\Database\Factories\ClaimFactory> */
     use HasFactory;
+    use HasUuids;
 
     /**
      * The table associated with the model.
@@ -65,4 +67,8 @@ class Claim extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    //  UUID settings
+    public $incrementing = false;   // no auto increment
+    protected $keyType = 'string';  // primary key is a string
 }
