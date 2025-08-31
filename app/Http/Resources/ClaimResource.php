@@ -17,6 +17,7 @@ class ClaimResource extends JsonResource
         return [
             'id' => $this->id,
             'message' => $this->message,
+            'is_approved' => $this->is_approved,
             'approved_at' => $this->approved_at,
             'approver_id' => $this->approver_id,
             'user' => $this->user,

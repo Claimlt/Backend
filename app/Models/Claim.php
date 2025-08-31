@@ -26,7 +26,7 @@ class Claim extends Model
      *
      * @var array<string>
      */
-    protected $fillable = ['message', 'approved_at', 'approver_id', 'user_id', 'post_id'];
+    protected $fillable = ['message', 'approved_at', 'is_approved', 'approver_id', 'user_id', 'post_id'];
 
     /**
      * Get the post that owns the Claim

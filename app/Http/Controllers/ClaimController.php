@@ -31,7 +31,7 @@ class ClaimController extends Controller
         $claim = Claim::create([
             'message' => $request->message,
             'post_id' => $request->post,
-            'user_id' => Auth::user()->id
+            'user_id' => \Illuminate\Support\Facades\Auth::user()->id
         ]);
 
         if ($request->filled('images')) {
