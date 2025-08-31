@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClaimController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-Route::get("/", function () {
-    return response('Hello World', 200);
-});
 
 Route::post("/register", [AuthController::class, 'register']);
 Route::post("/login", [AuthController::class, 'login']);
@@ -19,3 +16,5 @@ Route::post("/update", [ProfileController::class, 'update'])->middleware('auth:s
 
 Route::post("/images", [ImageController::class, 'store'])->middleware('auth:sanctum')->name("image-upload");
 Route::apiResource("/posts", PostController::class)->middleware('auth:sanctum');
+Route::apiResource("/claims", ClaimController::class)->middleware('auth:sanctum');
+
