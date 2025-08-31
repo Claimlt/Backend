@@ -29,7 +29,7 @@ class ProfileController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'contact_number' => "required|string|digits:10",
-            'avatar' => 'required|uuid|exists:image,id',
+            'avatar' => 'sometimes|uuid|exists:image,id',
         ]);
 
         $user = Auth::user();
@@ -39,6 +39,28 @@ class ProfileController extends Controller
             'last_name' => $request->last_name,
             'contact_number' => $request->contact_number,
         ]);
+
+        Image::where('id', $request->input('avatar'))
+            ->update([
+                'imageable_id' => $user->id,
+                'imageable_type' => User::class,
+            ]);
+
+        return response()->json([
+            'user' => $user->load("avatar"),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'sometimes|uuid|exists:image,id',
+        ]);
+
+        $user = Auth::user();
 
         Image::where('id', $request->input('avatar'))
             ->update([
