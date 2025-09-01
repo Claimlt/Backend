@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProfileResource;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,9 +17,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return response()->json([
-            'user' => $user->load("avatar"),
-        ]);
+        return new ProfileResource($user->load('avatar'));
     }
     /**
      * Update the specified resource in storage.
@@ -46,9 +45,7 @@ class ProfileController extends Controller
                 'imageable_type' => User::class,
             ]);
 
-        return response()->json([
-            'user' => $user->load("avatar"),
-        ]);
+        return new ProfileResource($user->load('avatar'));
     }
 
     /**
@@ -68,9 +65,7 @@ class ProfileController extends Controller
                 'imageable_type' => User::class,
             ]);
 
-        return response()->json([
-            'user' => $user->load("avatar"),
-        ]);
+        new ProfileResource($user->load('avatar'));
     }
 
 }

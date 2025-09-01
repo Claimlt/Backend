@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\ProfileResource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -33,9 +34,10 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'user' => new ProfileResource($user->load('avatar')),
             'token' => $token,
         ], 201);
+
     }
 
     //login function
@@ -51,9 +53,10 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'user' => new ProfileResource($user->load('avatar')),
             'token' => $token,
         ], 200);
+
     }
 
     //logout function
