@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\returnArgument;
 
 class ProfileController extends Controller
 {
@@ -54,7 +55,7 @@ class ProfileController extends Controller
     public function updateAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'sometimes|uuid|exists:image,id',
+            'avatar' => 'required|uuid|exists:image,id',
         ]);
 
         $user = Auth::user();
@@ -64,8 +65,7 @@ class ProfileController extends Controller
                 'imageable_id' => $user->id,
                 'imageable_type' => User::class,
             ]);
-
-        new ProfileResource($user->load('avatar'));
+        return new ProfileResource($user->load('avatar'));
     }
 
 }
