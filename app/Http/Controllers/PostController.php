@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('images')->get();
+        $posts = Post::with('images', 'user')->get();
         return PostResource::collection($posts);
     }
 
@@ -53,7 +53,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return new PostResource($post->load('images'));
+        return new PostResource($post->load('images', 'user'));
     }
 
     /**
