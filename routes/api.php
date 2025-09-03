@@ -13,6 +13,7 @@ Route::post("/logout", [AuthController::class, 'logout'])->middleware('auth:sanc
 
 Route::get("/profile", [ProfileController::class, 'profile'])->middleware('auth:sanctum');
 Route::put("/profile", [ProfileController::class, 'update'])->middleware('auth:sanctum');
+Route::get("/all-profile", [ProfileController::class, 'getAllProfile'])->middleware('auth:sanctum');
 Route::post("/profile-avatar", [ProfileController::class, 'updateAvatar'])->middleware('auth:sanctum');
 
 Route::post("/images", [ImageController::class, 'store'])->middleware('auth:sanctum')->name("image-upload");

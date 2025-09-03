@@ -20,6 +20,12 @@ class ProfileController extends Controller
 
         return new ProfileResource($user->load('avatar'));
     }
+    public function getAllProfile()
+    {
+        $users = User::with('avatar')->get();
+        return ProfileResource::collection($users);
+    }
+
     /**
      * Update the specified resource in storage.
      */
