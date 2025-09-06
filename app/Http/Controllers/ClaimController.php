@@ -7,6 +7,7 @@ use App\Models\Claim;
 use App\Http\Requests\StoreClaimRequest;
 use App\Http\Requests\UpdateClaimRequest;
 use App\Models\Image;
+use App\Models\Post;
 use Auth;
 use Illuminate\Support\Facades\Gate;
 use Storage;
@@ -90,14 +91,14 @@ class ClaimController extends Controller
         return response()->noContent();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function getByUser()
     {
-        $user = Auth::user();
-        $claims = Claim::where("user_id", $user->id);
-
-        return ClaimResource::collection($claims);
+        return ClaimResource::collection(Auth::user()->claims);
     }
+
+    public function getByPost(Post $post)
+    {
+        return ClaimResource::collection($post->claims);
+    }
+
 }
