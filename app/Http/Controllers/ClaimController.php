@@ -89,4 +89,15 @@ class ClaimController extends Controller
         $claim->delete();
         return response()->noContent();
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function getByUser()
+    {
+        $user = Auth::user();
+        $claims = Claim::where("user_id", $user->id);
+
+        return ClaimResource::collection($claims);
+    }
 }
