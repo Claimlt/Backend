@@ -7,6 +7,7 @@ use App\Models\Claim;
 use App\Http\Requests\StoreClaimRequest;
 use App\Http\Requests\UpdateClaimRequest;
 use App\Models\Image;
+use App\Models\Post;
 use Auth;
 use Illuminate\Support\Facades\Gate;
 use Storage;
@@ -89,4 +90,15 @@ class ClaimController extends Controller
         $claim->delete();
         return response()->noContent();
     }
+
+    public function getByUser()
+    {
+        return ClaimResource::collection(Auth::user()->claims);
+    }
+
+    public function getByPost(Post $post)
+    {
+        return ClaimResource::collection($post->claims);
+    }
+
 }
