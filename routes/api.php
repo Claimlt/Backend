@@ -19,5 +19,5 @@ Route::post("/profile-avatar", [ProfileController::class, 'updateAvatar'])->midd
 Route::post("/images", [ImageController::class, 'store'])->middleware('auth:sanctum')->name("image-upload");
 Route::apiResource("/posts", PostController::class)->middleware('auth:sanctum');
 Route::apiResource("/claims", ClaimController::class)->middleware('auth:sanctum');
-Route::apiResource("/users", UserController::class)->middleware('auth:sanctum');
+Route::apiResource("/all-profile", UserController::class)->middleware('auth:sanctum');
 
