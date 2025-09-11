@@ -101,4 +101,15 @@ class ClaimController extends Controller
         return ClaimResource::collection($post->claims);
     }
 
+    public function approve(Claim $claim)
+    {
+        // Gate::authorize('approve', $claim);
+        $claim->update([
+            'approved_at' => now(),
+            'approver_id' => Auth::user()->id
+        ]);
+
+        return new ClaimResource($claim->load('images', 'user'));
+    }
+
 }
