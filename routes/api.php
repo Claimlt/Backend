@@ -22,6 +22,7 @@ Route::apiResource("/claims", ClaimController::class)->middleware('auth:sanctum'
 Route::post("/claims/{claim}/approve", [ClaimController::class, 'approve'])->middleware('auth:sanctum');
 Route::get("posts/{post}/claims", [ClaimController::class, 'getByPost'])->middleware('auth:sanctum');
 Route::get("/my-claims", [ClaimController::class, 'getByUser'])->middleware('auth:sanctum');
+Route::get("/my-post-claims", [ClaimController::class, 'getByUserPosts'])->middleware('auth:sanctum');
 
 Route::apiResource("/users", UserController::class)->middleware('auth:sanctum');
 
