@@ -80,7 +80,7 @@ class ClaimController extends Controller
 
         foreach ($images as $image) {
             // Delete file from storage
-            Storage::disk('public')->delete($image->filename);
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($image->filename);
 
             // Delete image record
             $image->delete();
@@ -93,7 +93,7 @@ class ClaimController extends Controller
 
     public function getByUser()
     {
-        return ClaimResource::collection(Auth::user()->claims);
+        return ClaimResource::collection(\Illuminate\Support\Facades\Auth::user()->claims);
     }
 
     public function getByPost(Post $post)
@@ -114,7 +114,7 @@ class ClaimController extends Controller
         // Gate::authorize('approve', $claim);
         $claim->update([
             'approved_at' => now(),
-            'approver_id' => Auth::user()->id
+            'approver_id' => \Illuminate\Support\Facades\Auth::user()->id
         ]);
 
         return new ClaimResource($claim->load('images', 'user'));
