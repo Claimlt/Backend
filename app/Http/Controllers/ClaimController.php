@@ -100,6 +100,14 @@ class ClaimController extends Controller
     {
         return ClaimResource::collection($post->claims);
     }
+    public function getByUserPosts()
+    {
+        $postIds = Auth::user()->posts->pluck('id');
+        $claims = Claim::whereIn('post_id', $postIds)->get();
+
+        return ClaimResource::collection($claims);
+    }
+
 
     public function approve(Claim $claim)
     {
