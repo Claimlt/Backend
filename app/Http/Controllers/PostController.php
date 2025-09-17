@@ -23,7 +23,16 @@ class PostController extends Controller
         $posts = Post::with('images', 'user')->get();
         return PostResource::collection($posts);
     }
+    public function myPosts()
+    {
+        $user = Auth::user();
 
+        $posts = Post::with('images')
+            ->where('user_id', $user->id)
+            ->get();
+
+        return PostResource::collection($posts);
+    }
     /**
      * Store a newly created resource in storage.
      */
