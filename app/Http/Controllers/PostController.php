@@ -31,7 +31,12 @@ class PostController extends Controller
             ->where('user_id', $user->id)
             ->get();
 
-        return PostResource::collection($posts);
+        $count = $posts->count();
+
+        return response()->json([
+            'count' => $count,
+            'data' => PostResource::collection($posts),
+        ]);
     }
     /**
      * Store a newly created resource in storage.
