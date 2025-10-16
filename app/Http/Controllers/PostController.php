@@ -101,4 +101,35 @@ class PostController extends Controller
         $post->delete();
         return response()->noContent();
     }
+
+    public function trendingTitles()
+    {
+        // Get all post titles
+        $posts = Post::select('title')->get();
+
+        $titleCount = [];
+
+        foreach ($posts as $post) {
+            $title = trim($post->title);
+            if ($title) {
+                $titleCount[$title] = ($titleCount[$title] ?? 0) + 1;
+            }
+        }
+
+        // Sort by count (descending)
+        arsort($titleCount);
+
+        // Take top 5 titles
+        $topTitles = array_slice($titleCount, 0, 5, true);
+
+        // Format response
+        $result = [];
+        foreach ($topTitles as $title => $count) {
+            $result[] = ['tag' => $title, 'count' => $count];
+        }
+
+        return response()->json(['data' => $result]);
+    }
+
+
 }
